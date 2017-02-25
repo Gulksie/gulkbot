@@ -26,7 +26,9 @@ Currently, the commands for Gulkbot are:
 %spam [amount to spam(Min 1 Max 20)] [message(Up to 50 charicters)]
 %google - Googles whatever is after %google.
 %say - Says whatever you tell it to
-%help - I think you know what this is...''' #gets pmed upon request with %help
+%help - I think you know what this is...
+
+Also, you can find all the words for %scramble at github.com/Gulksie/gulkbot/blob/master/scramblewords.txt''' #gets pmed upon request with %help
 
 creds = '''Gulkbot Credits
 
