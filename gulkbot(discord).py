@@ -62,7 +62,7 @@ async def on_message(message):
                 client.send_message(message.channel, 'I have a rather large penis.')
         #%scramble
         #scrambles word and outputs to chat if %scramble is sent
-        if not scramble and message.content.startswith('%scramble'):
+        if message.content.startswith('%scramble'):
                 while True:
                         word = words[random.randint(1, 50)]
                         word_s = ''.join(random.sample(word, len(word)))
@@ -75,7 +75,6 @@ async def on_message(message):
                         unscr = await client.wait_for_message(author=message.author, channel=message.channel)
                         if unscr.content.startswith('%unscramble'):
                                 unscr = unscr.content.split()
-                                print(unscr)
                                 if len(unscr) != 2:
                                         await client.send_message(message.channel, na + '\n You are still going. Type %giveup to give up.')
                                 else:
@@ -84,7 +83,6 @@ async def on_message(message):
                         elif unscr.content.startswith('%giveup'):
                                 await client.send_message(message.channel, 'You gave up. RIP.\nThe word was ' + word +', by the way.')
                                 return
-                print(unscr)
                 if unscr == word:
                         await client.send_message(message.channel, 'You got the word! Type %scramble to go again.')
                 else:
@@ -107,7 +105,7 @@ async def on_message(message):
 
 
         #%spam
-        #Outputs a spam of what is sent in chat if message starts with %scramble and message only contains 3 peramiters and peramiters are correct
+        #Outputs a spam of what is sent in chat if message starts with %spam and message only contains 3 peramiters and peramiters are correct
         elif message.content.startswith('%spam'):
                 message_ = message.content.split()
                 if len(message_) != 3 or not message_[1].isdigit() or not len(message_[2]) in range(20) or not int(message_[1]) in range(1, 21):
