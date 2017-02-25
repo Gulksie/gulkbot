@@ -21,10 +21,11 @@ Currently, the commands for Gulkbot are:
 %ping - Sends you a "Pong!" back
 %scramble - A simple word scrambler. Scrambles one of 50 messages and tells you it.
 %unscramble - Guess what the scrambled word was from %scramble. Only usable if there is an ongoing scramble.
-%lucahasasmallwilly - Does he?
+%nickberghasalargewilly - Does he?
 %spam - Spams a message. Format is:
 %spam [amount to spam(Min 1 Max 20)] [message(Up to 50 charicters)]
 %google - Googles whatever is after %google.
+%say - Says whatever you tell it to
 %help - I think you know what this is...''' #gets pmed upon request with %help
 
 creds = '''Gulkbot Credits
@@ -56,13 +57,14 @@ async def on_ready(): #logs in client
 
 @client.event
 async def on_message(message):
+        global counter
         #fun counter
         counter += 1
         if counter ==250:
                 client.send_message(message.channel, 'I have a rather large penis.')
         #%scramble
         #scrambles word and outputs to chat if %scramble is sent
-        if message.content.startswith('%scramble'):
+        if not scramble and message.content.startswith('%scramble'):
                 while True:
                         word = words[random.randint(1, 50)]
                         word_s = ''.join(random.sample(word, len(word)))
@@ -97,15 +99,15 @@ async def on_message(message):
 
         #%lucahasasmallwilly
         #sends luca has a small willy if %lucahasasmallwilly is sent
-        elif message.content.startswith('%lucahasasmallwilly'):
+        elif message.content.startswith('%nickberghasalargewilly'):
                 await client.send_message(message.channel, 'I agree.')
                 sleep(3)
                 for i in range(5):
-                        await client.send_message(message.channel, '@LucaBus10#9146 has a small willy')
+                        await client.send_message(message.channel, '<@!280810526366498816> has a large willy')
 
 
         #%spam
-        #Outputs a spam of what is sent in chat if message starts with %spam and message only contains 3 peramiters and peramiters are correct
+        #Outputs a spam of what is sent in chat if message starts with %scramble and message only contains 3 peramiters and peramiters are correct
         elif message.content.startswith('%spam'):
                 message_ = message.content.split()
                 if len(message_) != 3 or not message_[1].isdigit() or not len(message_[2]) in range(20) or not int(message_[1]) in range(1, 21):
@@ -119,7 +121,6 @@ async def on_message(message):
         #googles message when requested with %google
         elif message.content.startswith('%google'):
                 message_ = message.content.split()
-                print(message_)
                 googlelink_ = googlelink + message_[1]
                 message_ = message_[2:]
                 for word in message_:
@@ -131,18 +132,29 @@ async def on_message(message):
         #Sends help (helptext) to user when requested with %help
         elif message.content.startswith('%help'):
                 await client.send_message(message.author, helptext)
-                await client.send_message(message.channel, 'Check your PMs.')
+                await client.send_message(message.channel, message.author.mention + ', check your PMs.')
 
 
         #%credits
         #sends credits to user when requested with %credits
         elif message.content.startswith('%credits'):
                 await client.send_message(message.author, creds)
-                await client.send_message(message.channel, 'Check your PMs.')
+                await client.send_message(message.channel, message.author.mention + ', check your PMs.')
 
 
+        #%say
+        #says in chat whatever it is told to with %say
+        elif message.content.startswith('%say'):
+                await client.send_message(message.channel, ''.join(list(message.content)[5:]))
+                await client.delete_message(message)
 
 
+        #%die
+        #closes program if I (and only i, you can edit this by changing the id to your id) tell it to
+        elif message.content.startswith('%die') and message.author.id == '232230909363879939':  #replace the two 232230909363879939s with whoever you want to be able to kill the bot. get this number by doing \@[username]
+                await client.send_message(message.channel, '<@!232230909363879939> killed me. Ow')
+                await client.logout()
+                print('Logged out.')
 
 
-client.run('YOUR BOT TOKEN HERE') #enter your bot token here
+client.run('YOUR BOT TOKEN HERE') 
